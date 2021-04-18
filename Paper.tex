@@ -73,7 +73,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 Photogrammetry is the process of reconstructing spatial information with images through computer vision. 
 The process uses similar points visible on multiple images to determine the points in space.
 The reconstruction certainty of these points is strongly dependent on the overlap between different images. 
-When a point is visible on more images, the reconstruction certainty we be higher.
+When a point is visible on more images, the reconstruction certainty will be higher.
 This is especially the case with the reconstruction of irregular formed object like vegetation \citep{AccessingImageOverlap}.
 With irregular objects, a higher overlap is preferred to capture each side of the object.
 If parts of the object are not visible on the image, they will not be reconstructed in the point cloud.
@@ -116,7 +116,8 @@ For image processing and DEM generation Agisoft Professional edition 1.6.5 (Agis
 First, the complete data set has been aligned on medium quality.
 Next, the dense cloud was built on medium quality (no depth filtering), resulting in a dense cloud of 3,268,264 points.
 A mesh was built using the the triangulated irregular network (TIN) algorithm by \citet{axelsson1999processing}. 
-After the mesh the Reduce Overlap function was used to reduce the amount images used in the process of photogrammetry
+After the mesh the Reduce Overlap function was used to reduce the amount images used in the process of photogrammetry. 
+The mesh was set to create a 2.5D height field.
 
 \textbf{Reduce Overlap.} 
 The algorithm of the Reduce Overlap function tries to select a minimal amount of images such that each point of the model is observed from N locations/angles.
@@ -141,16 +142,19 @@ In table \ref{tab:ImageProcessing} an overview of the image processing results c
 \end{tabular}
 \end{table}
 
-
-
-
-
-
 \subsection{DEM}
 The source data for the DEM's are the dense cloud results. 
 The TIN algorithm is used to built the DEM's \citep{axelsson1999processing}.
 
+\section{Results}
+\section{Discussion}
+The amount of images used in the processing does not seem to influence the density of the dense cloud, which was also concluded by \citet{EffectofUABimgcamover}. 
+The input mesh for the Reduce Overlap was a 2.5D height field. 
+With more complex objects that need to processed as a real 3D object the amount of dense cloud may decrease if the amount of images is reduces significantly.
+An other option is that the Reduce Overlap function will not have much influence on the image count.
 
+
+\section{Conclusion}
 
 % KAO: Sloppy spacing ensures non-overfull lines. Can be removed if this is not an issue.
 \sloppy
