@@ -1,0 +1,73 @@
+\begin{thebibliography}{xx}
+
+\bibitem[Chan, Qin, 2017]{chan2017}
+Chan, K.~L., Qin, K., 2017.
+ Biomass burning related pollution and their contributions to the air quality
+  in Hong Kong.
+ {\em Int. Arch. Photogramm. Remote Sens. Spatial Inf. Sci.}, XLII-2/W7,
+  29--36.
+ doi.org/10.5194/isprs-archives-XLII-2-W7-29-2017.
+
+\bibitem[Dubayah et al., 2017]{dubayah2013}
+Dubayah, R., Swatantran, A., Huang, W., Duncanson, L., Trang, H., Johnson, K.,
+  Dunne, J., Hurtt, G., 2017.
+ {CMS: LiDAR-derived Biomass, Canopy Height and Cover, Sonoma County,
+  California, 2013}.
+ ORNL DAAC, Oak Ridge, Tennessee, USA. doi.org/10.3334/ORNLDAAC/1523.
+
+\bibitem[F{\"o}rstner, Wrobel, 2016]{foerstner2016}
+F{\"o}rstner, W., Wrobel, B., 2016.
+ {\em Photogrammetric Computer Vision}.
+ Springer Nature, Cham.
+
+\bibitem[Gago-Silva, 2016]{gago2016}
+Gago-Silva, A., 2016.
+ {GRASS GIS in Grid Environment}.
+ doi.org/10.6084/m9.figshare.3188950.
+
+\bibitem[{GRASS Development Team}, 2015]{grass2015}
+{GRASS Development Team}, 2015.
+ {Geographic Resources Analysis Support System (GRASS) Software, Version 6.4}.
+ Open Source Geospatial Foundation. grass.osgeo.org (1 June 2017).
+
+\bibitem[{GRASS Development Team}, 2017]{grass2017}
+{GRASS Development Team}, 2017.
+ {Geographic Resources Analysis Support System (GRASS) Software}.
+ Open Source Geospatial Foundation. grass.osgeo.org (20 September 2017).
+
+\bibitem[Lennert, {GRASS Development Team}, 2017]{lennert2017}
+Lennert, M., {GRASS Development Team}, 2017.
+ {Addon i.segment.stats. Geographic Resources Analysis Support System (GRASS)
+  Software, Version 7.2}.
+ Open Source Geospatial Foundation.
+  grass.osgeo.org/grass7/manuals/addons/i.segment.stats.html (1 June 2017).
+
+\bibitem[Maas et al., 2017]{maas2017}
+Maas, A., Rottensteiner, F., Heipke, C., 2017.
+ Classification under label noise using outdated maps.
+ {\em ISPRS Ann. Photogramm. Remote Sens. Spatial Inf. Sci.}, IV-1/W1,
+  215--222.
+ doi.org/10.5194/isprs-annals-IV-1-W1-215-2017.
+
+\bibitem[Michalis, Dowman, 2008]{michalis2008}
+Michalis, P., Dowman, I., 2008.
+ A Generic Model for Along-Track Stereo Sensors Using Rigorous Orbit Mechanics.
+ {\em Photogrammetric Engineering and Remote Sensing}, 74(3), 303--309.
+
+\bibitem[Smith, 1987a]{smith1987}
+Smith, J., 1987a.
+ Close range photogrammetry for analyzing distressed trees.
+ {\em Photogrammetria}, 42(1), 47--56.
+
+\bibitem[Smith, 1987b]{smith1987rep}
+Smith, J., 1987b.
+ {Economic printing of color orthophotos}.
+ Report KRL-01234, Kennedy Research Laboratories, Arlington, VA, USA.
+
+\bibitem[Smith, 2000]{smith2000}
+Smith, J., 2000.
+ Remote sensing to predict volcano outbursts.
+ \emph{Int. Arch. Photogramm. Remote Sens. Spatial Inf. Sci.},  XXVII-B1,
+  456--469.
+
+\end{thebibliography}

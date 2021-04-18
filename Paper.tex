@@ -10,6 +10,8 @@
 \usepackage{geometry} % added 27-02-2014 Markus Englich
 \usepackage{epstopdf}
 \usepackage{natbib}
+\usepackage{tabularx}
+\usepackage{booktabs}
 \usepackage[colorlinks, allcolors=blue]{hyperref}
 %\bibliographystyle{apalike}
 \usepackage[labelsep=period]{caption}  % added 14-04-2016 Markus Englich - Recommendation by Sebastian Brocks
@@ -99,25 +101,56 @@ There are a few trees present.
 \begin{figure}[htp]
     \centering
     \includegraphics[width=4cm]{locationwide.png}
-    \includegraphics[width=4cm]{locationzoom.png}
+    \includegraphics[width=4cm]{locationzoom2.png}
     \caption{Area of Interest and Image Locations}
     \label{fig:areaofinterest}
 \end{figure}
 Each image has a resolution of 4000 times 3000 and was taken by a DJI Phantom 3.
 The images all contain GNNS location (WGS84). 
+The complete data set consists of 111 images.
 Their exact location can be found in figure \ref{fig:areaofinterest}.
 
 
-\subsection{Image Selection and Processing}
-For image processing and DEM generation Agisoft Metashape Professional edition 1.6.5 (Agisoft LLC., St. Peterburg, Russia) was used.
+\subsection{Image Processing}
+For image processing and DEM generation Agisoft Professional edition 1.6.5 (Agisoft LLC., St. Peterburg, Russia) was used.
 First, the complete data set has been aligned on medium quality.
 Next, the dense cloud was built on medium quality (no depth filtering), resulting in a dense cloud of 3,268,264 points.
+A mesh was built using the the triangulated irregular network (TIN) algorithm by \citet{axelsson1999processing}. 
+After the mesh the Reduce Overlap function was used to reduce the amount images used in the process of photogrammetry
+
+\textbf{Reduce Overlap.} 
+The algorithm of the Reduce Overlap function tries to select a minimal amount of images such that each point of the model is observed from N locations/angles.
+If a point is observed multiple times from the same location/angle, than this still counts as one. 
+The exact algorithm and parameters behind the Agisoft Reduce Overlap function are unknown.
+In Agisoft Metashape the 'Reduce Overlap' had three different settings, low, medium and high. 
+
+After the amount of images have been reduced, the data have been processed on medium for the image alignment and on medium without depth filtering for the dense cloud creation.
+In table \ref{tab:ImageProcessing} an overview of the image processing results can be found.
+
+\begin{table}[htb]
+    \centering
+    \caption{Image Processing Results}
+    \begin{tabular}{@{}cccc@{}}
+    \toprule
+    \textbf{Setting} & \textbf{Images} & \multicolumn{1}{l}{\textbf{Sparse Cloud}} & \multicolumn{1}{l}{\textbf{Dense Cloud}} \\ \midrule
+    -      & 111 & 80,901 & 3,269,264 \\
+    Low    & 44  & 37,886 & 4,172,783 \\
+    Medium & 70  & 54,556 & 3,313,399 \\
+    High   & 75  & 49,692 & 3,276,832 \\ \bottomrule
+    \label{tab:ImageProcessing}
+\end{tabular}
+\end{table}
 
 
 
-The generation of three-dimensional (3D) dense point clouds from the images were performed for each acquisition using the proprietary software Agisoft Photoscan Professional version 1.1 (Agisoft LLC., St. Petersburg, Russia)
+
+
 
 \subsection{DEM}
+The source data for the DEM's are the dense cloud results. 
+The TIN algorithm is used to built the DEM's \citep{axelsson1999processing}.
+
+
 
 % KAO: Sloppy spacing ensures non-overfull lines. Can be removed if this is not an issue.
 \sloppy
