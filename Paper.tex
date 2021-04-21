@@ -58,10 +58,15 @@
 
 % KAO: Use times symbol
 \abstract{
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Photogrammetry is easy to use these days and can be used to create a digital elevation model of an area. 
+Image overlap plays an important role in the process of photogrammetry.
+A high overlap takes more time to gather in the field and takes longer to process.
+Less overlap usually results in a less accurate calculations. 
+In this paper the overlap of an area is artificially reduced and digital elevation models have been created with different image overlaps.
+The digital elevation models are compared to see how reducing the image overlap influences the result.
 }
 
-\keywords{Photogrammetry, Digital Elevation Model, Image Overlap}
+\keywords{Photogrammetry, Digital Elevation Model, Image Overlap, Agisoft Metashape}
 
 \maketitle
 
@@ -79,16 +84,16 @@ With irregular objects, a higher overlap is preferred to capture each side of th
 If parts of the object are not visible on the image, they will not be reconstructed in the point cloud.
 So the overlap strongly influences the point cloud density in the dense cloud \citep{OptimalAltOverWeath}.
 In the reconstruction process, a high overlap will also result in longer computation time \citep{AccessingImageOverlap}
-However, a higher image overlap, does not automatically results in a higher point accuracy (x,y,z) \citep{EffectofUABimgcamover}.
-By investigating how reducing the image overlap influences photogrammetry results, time and computing power may be saved without loosing too much spatial information.
-
-With the development of cheap Unmanned Aerial Vehicles (UAV) photogrammetry has become more and more popular. 
+However, a higher image overlap, does not automatically results in a higher point accuracy (x,y,z) \citep{EffectofUABimgcamover}. 
+With the development of cheap Unmanned Aerial Vehicles (UAV) photogrammetry has become more and more popular \citet{UAVAreMoreUsed}. 
 UAV's come with high resolution cameras, GNSS and are available almost anywhere these days.
 While UAV's do come with high resolution sensors and relatively cheap, small, high capacity batteries are not available \citep{UAVpopularity}.
 A high image overlap takes longer to gather than a low image overlap. 
 A drone can use a higher altitude so the sensor captures a larger area.
 however, with a higher flight altitude the detail of the image will be less than that of a drone with a lower flight altitude.
 This way the gathering process takes longer, and the UAV might even need to switch batteries instead of taking the images in a single flight.
+By reducing the image overlap, time and computing power may be saved without loosing too much spatial information.
+This main goal of this study is to investigate how different image overlap influence the DEM result that is created with photogrammetry. 
 
 
 \section{Materials and Methods}
@@ -101,8 +106,8 @@ There are a few trees present.
 \begin{figure}[htp]
     \centering
     \includegraphics[width=4cm]{locationwide.png}
-    \includegraphics[width=4cm]{locationzoom2.png}
-    \caption{Area of Interest and Image Locations}
+    \includegraphics[width=4cm]{imgloc.png}
+    \caption{Area of Interest and Unprocessed Image GPS Locations}
     \label{fig:areaofinterest}
 \end{figure}
 Each image has a resolution of 4000 times 3000 and was taken by a DJI Phantom 3.
@@ -112,7 +117,7 @@ Their exact location can be found in figure \ref{fig:areaofinterest}.
 
 
 \subsection{Image Processing}
-For image processing and DEM generation Agisoft Professional edition 1.6.5 (Agisoft LLC., St. Peterburg, Russia) was used.
+For image processing and DEM generation Agisoft Professional edition 1.6.5 (Agisoft LLC., St. Peterburg, Russia) was used \citep{AgisoftMetashape}.
 First, the complete data set has been aligned on medium quality.
 Next, the dense cloud was built on medium quality (no depth filtering), resulting in a dense cloud of 3,268,264 points.
 A mesh was built using the the triangulated irregular network (TIN) algorithm by \citet{axelsson1999processing}. 
@@ -123,7 +128,26 @@ The mesh was set to create a 2.5D height field.
 The algorithm of the Reduce Overlap function tries to select a minimal amount of images such that each point of the model is observed from N locations/angles.
 If a point is observed multiple times from the same location/angle, than this still counts as one. 
 The exact algorithm and parameters behind the Agisoft Reduce Overlap function are unknown.
+The input dataset was a 2.D height field mesh. 
+Because in this paper the comparison will be made with a DEM, a height field was computed.
 In Agisoft Metashape the 'Reduce Overlap' had three different settings, low, medium and high. 
+All of the settings are used to compute the images for further processing.
+
+\textbf{Camera Location.}
+In figure \ref{fig:cameralocation} the estimated camera locations can be found. The camera selection is done by the Reduce Overlap algorithm from Agisoft Metashape. The estimated camera location is done in the image processing.
+The images are matched based on an adapted version of the SIFT algorithm \citep{lowe1999object, AgisoftMetashape}. 
+
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width=4cm]{loc_low.png}
+    \includegraphics[width=4cm]{loc_med.png}
+    \includegraphics[width=4cm]{loc_full.png}
+    \includegraphics[width=4cm]{loc_high.png}
+    \caption{Estimated camera location. 
+    White: used in the image processing, red: disabled in the image processing.\\
+    Clockwise: low, medium, high and full settings}
+    \label{fig:cameralocation}
+\end{figure}
 
 After the amount of images have been reduced, the data have been processed on medium for the image alignment and on medium without depth filtering for the dense cloud creation.
 In table \ref{tab:ImageProcessing} an overview of the image processing results can be found.
@@ -144,15 +168,70 @@ In table \ref{tab:ImageProcessing} an overview of the image processing results c
 
 \subsection{DEM}
 The source data for the DEM's are the dense cloud results. 
+The Dense Cloud contains about the same amount of points with the exception for the lowest Reduce Overlap setting.
+This setting has resulted in the dense cloud with the most points.
 The TIN algorithm is used to built the DEM's \citep{axelsson1999processing}.
+The image overlap is now changed, therefore the DEM's have a slightly different extent.
+Because of this the largest common extent of the DEM's will be used to crop the DEM's resulting in four DEM's with an equal extent.
+The DEM's will also be scaled to check the differences between the DEM's without looking at the absolute values.
+The scaling will be done by subtracting the mean and dividing by the standard deviation.
+
 
 \section{Results}
+In figure \ref{fig:DemPlot_unscaled} are visualized using the same color range. 
+In this figure the DEM's do no look similar at all.
+
+
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width=8cm]{DemPlots.png}
+    \caption{DEM Results of the Reduce Overlap}
+    \label{fig:DemPlot_unscaled}
+\end{figure}
+
+As can be seen from figure \ref{fig:BoxPlot_unscaled} the DEM's are indeed different from each other. 
+The outliers in the boxplot figure are probably the vegetation that is present in the area.
+For the low setting the DEM values range from -19.4 to 19.0, for the medium setting the values range from -22.7 to 16.2, for the high setting the values range from 13.1 to 20.0 and for the full model from -4.8 to 28.9.
+
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width=8cm]{DemBoxplot.png}
+    \caption{Box plots of the DEM Results of the Reduce Overlap}
+    \label{fig:BoxPlot_unscaled}
+\end{figure}
+
+Figure \ref{fig:DemPlot_scaled} contains the same visualization of DEM plots, only for all the DEM's the data has been scaled.
+
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width=8cm]{DemPlots_scaled.png}
+    \caption{Scaled DEM Results of the Reduce Overlap}
+    \label{fig:DemPlot_scaled}
+\end{figure}
+
+The same applies for figure \ref{fig:BoxPlot_unscaled}, only now the boxplot contain the scaled data values.
+
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width=8cm]{DemBoxPlot_Scaled.png}
+    \caption{Scaled DEM Results of the Reduce Overlap}
+    \label{fig:BoxPlot_scaled}
+\end{figure}
+
 \section{Discussion}
-The amount of images used in the processing does not seem to influence the density of the dense cloud, which was also concluded by \citet{EffectofUABimgcamover}. 
+The goal of this research was to assess the difference between DEM's of the same area with different image overlap. 
+The image reduction in the paper was calculated in Agisoft Metashape with the Reduce Overlap function.
+The amount of images used in the processing does not seem to influence the density of the dense cloud, which was also concluded by \citet{EffectofUABimgcamover}.
+In this research the point confidence was not measured, the dense cloud were directly used to construct a DEM.
+
 The input mesh for the Reduce Overlap was a 2.5D height field. 
 With more complex objects that need to processed as a real 3D object the amount of dense cloud may decrease if the amount of images is reduces significantly.
+Because the mesh was structured as a 2.5D surface, difficult points were removed from the model, e.g. in this case the tree structures were lost in the process.
 An other option is that the Reduce Overlap function will not have much influence on the image count.
 
+There is a large different between the absolute values between the different DEM's, this can be seen visually in figure \ref{fig:DemPlot_unscaled} and also when comparing the boxplot values in figure \ref{fig:BoxPlot_unscaled}.
+With the use of at least three ground control points the error in the absolute values of the can be prevented \citep{AssessingUAVGCPS}.
+By using GCP's 
 
 \section{Conclusion}
 
