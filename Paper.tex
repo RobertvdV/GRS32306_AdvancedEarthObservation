@@ -133,8 +133,8 @@ Because in this paper the comparison will be made with a DEM, a height field was
 In Agisoft Metashape the 'Reduce Overlap' had three different settings, low, medium and high. 
 All of the settings are used to compute the images for further processing.
 
-\textbf{Camera Location.}
-In figure \ref{fig:cameralocation} the estimated camera locations can be found. The camera selection is done by the Reduce Overlap algorithm from Agisoft Metashape. The estimated camera location is done in the image processing.
+\textbf{Camera Locations.}
+In figure \ref{fig:cameralocation} the estimated camera locations can be found. The camera selection is done by the Reduce Overlap algorithm from Agisoft Metashape. The estimated camera location is done in the image processing alogrithm of Metashape.
 The images are matched based on an adapted version of the SIFT algorithm \citep{lowe1999object, AgisoftMetashape}. 
 
 \begin{figure}[htp]
@@ -145,7 +145,7 @@ The images are matched based on an adapted version of the SIFT algorithm \citep{
     \includegraphics[width=4cm]{loc_high.png}
     \caption{Estimated camera location. 
     White: used in the image processing, red: disabled in the image processing.\\
-    Clockwise: low, medium, high and full settings}
+    Clockwise (starting left top): low, medium, high and full settings}
     \label{fig:cameralocation}
 \end{figure}
 
@@ -230,10 +230,15 @@ Because the mesh was structured as a 2.5D surface, difficult points were removed
 An other option is that the Reduce Overlap function will not have much influence on the image count.
 
 There is a large different between the absolute values between the different DEM's, this can be seen visually in figure \ref{fig:DemPlot_unscaled} and also when comparing the boxplot values in figure \ref{fig:BoxPlot_unscaled}.
-With the use of at least three ground control points the error in the absolute values of the can be prevented \citep{AssessingUAVGCPS}.
-By using GCP's 
+With the use of at least three ground control points the error in the absolute values of the can be reduced \citep{AssessingUAVGCPS, GCPbetterAccuracy}.
+
 
 \section{Conclusion}
+Using different image overlap in the same area results in DEM's with different absolute values.
+The two image dataset with the least images show the largest difference in absolute value range compared to the original dataset with all images. 
+The image dataset with the highest image count, has a DEM that is most similar compared to the original dataset.
+When the scaled values are compared there seems to be a minimal difference between the DEM's
+
 
 % KAO: Sloppy spacing ensures non-overfull lines. Can be removed if this is not an issue.
 \sloppy
