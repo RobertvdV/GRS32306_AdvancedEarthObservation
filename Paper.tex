@@ -103,7 +103,7 @@ The data covers an area in Ghana, about 20km south east of Ejura (lat. 7.3064212
 The area of interest is about 25000 m\textsuperscript{2}. 
 The area consists mostly of sanvannah.
 There are a few trees present.
-\begin{figure}[htp]
+\begin{figure}[h]
     \centering
     \includegraphics[width=4cm]{locationwide.png}
     \includegraphics[width=4cm]{imgloc.png}
@@ -118,6 +118,9 @@ Their exact location can be found in figure \ref{fig:areaofinterest}.
 
 \subsection{Image Processing}
 For image processing and DEM generation Agisoft Professional edition 1.6.5 (Agisoft LLC., St. Peterburg, Russia) was used \citep{AgisoftMetashape}.
+All data have been processed on the cloud service provided by Agisoft (\url{https://cloud.agisoft.com}).
+The cloud processing is done on a vCPU (Intel Xeon E5 2686 v4) with two NVIDIA Tesla M60 GPU's and 240 GB of RAM.
+
 First, the complete data set has been aligned on medium quality.
 Next, the dense cloud was built on medium quality (no depth filtering), resulting in a dense cloud of 3,268,264 points.
 A mesh was built using the the triangulated irregular network (TIN) algorithm by \citet{axelsson1999processing}. 
@@ -137,7 +140,7 @@ All of the settings are used to compute the images for further processing.
 In figure \ref{fig:cameralocation} the estimated camera locations can be found. The camera selection is done by the Reduce Overlap algorithm from Agisoft Metashape. The estimated camera location is done in the image processing alogrithm of Metashape.
 The images are matched based on an adapted version of the SIFT algorithm \citep{lowe1999object, AgisoftMetashape}. 
 
-\begin{figure}[htp]
+\begin{figure}[h]
     \centering
     \includegraphics[width=4cm]{loc_low.png}
     \includegraphics[width=4cm]{loc_med.png}
@@ -152,7 +155,7 @@ The images are matched based on an adapted version of the SIFT algorithm \citep{
 After the amount of images have been reduced, the data have been processed on medium for the image alignment and on medium without depth filtering for the dense cloud creation.
 In table \ref{tab:ImageProcessing} an overview of the image processing results can be found.
 
-\begin{table}[htb]
+\begin{table}[h]
     \centering
     \caption{Image Processing Results}
     \begin{tabular}{@{}cccc@{}}
@@ -162,7 +165,25 @@ In table \ref{tab:ImageProcessing} an overview of the image processing results c
     Low    & 44  & 37,886 & 4,172,783 \\
     Medium & 70  & 54,556 & 3,313,399 \\
     High   & 75  & 49,692 & 3,276,832 \\ \bottomrule
+    % Add processing time!
     \label{tab:ImageProcessing}
+\end{tabular}
+\end{table}
+
+For all the different settings the processing time can be found in table \ref{tab:processingTime}
+
+\begin{table}[h]
+    \centering
+    \caption{Processing time in seconds for the difference steps in the process.}
+    \label{tab:processingTime}
+    \begin{tabular}{@{}cccc@{}}
+    \toprule
+    \textbf{Setting} & \textbf{Sparse Cloud} & \multicolumn{1}{l}{\textbf{Dense Cloud}} & \multicolumn{1}{l}{\textbf{DEM}} \\ 
+    \midrule
+    -      & 150 & 292 & 17 \\
+    Low    & 59  & 443 & 16 \\
+    Medium & 83  & 147 & 17 \\
+    High   & 129 & 159 & 17 \\ \bottomrule
 \end{tabular}
 \end{table}
 
@@ -173,8 +194,12 @@ This setting has resulted in the dense cloud with the most points.
 The TIN algorithm is used to built the DEM's \citep{axelsson1999processing}.
 The image overlap is now changed, therefore the DEM's have a slightly different extent.
 Because of this the largest common extent of the DEM's will be used to crop the DEM's resulting in four DEM's with an equal extent.
+The DEM's will be exported from Agisoft Metashape with the same pixel resolution of 17.5 cm per pixel.
 The DEM's will also be scaled to check the differences between the DEM's without looking at the absolute values.
 The scaling will be done by subtracting the mean and dividing by the standard deviation.
+For further comparison all of the DEM's will be subtracted from the full model DEM.
+This will result in three new DEM's that contain differences instead of height values.
+
 
 
 \section{Results}
@@ -182,7 +207,7 @@ In figure \ref{fig:DemPlot_unscaled} are visualized using the same color range.
 In this figure the DEM's do no look similar at all.
 
 
-\begin{figure}[htp]
+\begin{figure}[h]
     \centering
     \includegraphics[width=8cm]{DemPlots.png}
     \caption{DEM Results of the Reduce Overlap}
@@ -193,7 +218,7 @@ As can be seen from figure \ref{fig:BoxPlot_unscaled} the DEM's are indeed diffe
 The outliers in the boxplot figure are probably the vegetation that is present in the area.
 For the low setting the DEM values range from -19.4 to 19.0, for the medium setting the values range from -22.7 to 16.2, for the high setting the values range from 13.1 to 20.0 and for the full model from -4.8 to 28.9.
 
-\begin{figure}[htp]
+\begin{figure}[h]
     \centering
     \includegraphics[width=8cm]{DemBoxplot.png}
     \caption{Box plots of the DEM Results of the Reduce Overlap}
@@ -202,7 +227,7 @@ For the low setting the DEM values range from -19.4 to 19.0, for the medium sett
 
 Figure \ref{fig:DemPlot_scaled} contains the same visualization of DEM plots, only for all the DEM's the data has been scaled.
 
-\begin{figure}[htp]
+\begin{figure}[h]
     \centering
     \includegraphics[width=8cm]{DemPlots_scaled.png}
     \caption{Scaled DEM Results of the Reduce Overlap}
@@ -211,12 +236,23 @@ Figure \ref{fig:DemPlot_scaled} contains the same visualization of DEM plots, on
 
 The same applies for figure \ref{fig:BoxPlot_unscaled}, only now the boxplot contain the scaled data values.
 
-\begin{figure}[htp]
+\begin{figure}[h]
     \centering
     \includegraphics[width=8cm]{DemBoxPlot_Scaled.png}
     \caption{Scaled DEM Results of the Reduce Overlap}
     \label{fig:BoxPlot_scaled}
 \end{figure}
+
+In figure \ref{fig:ViolinPlot} a violin plot containing the difference of the DEM between the different Reduce Overlap settings can be found.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=8cm]{ViolinPlot2.png}
+    \caption{Violin plot of the difference between the full DEM and the reduced DEM's}
+    \label{fig:ViolinPlot}
+\end{figure}
+
+% Substract the DEM from each other
 
 \section{Discussion}
 The goal of this research was to assess the difference between DEM's of the same area with different image overlap. 
