@@ -58,16 +58,17 @@
 
 % KAO: Use times symbol
 \abstract{
-Photogrammetry is easy to use these days and can be used to create a digital elevation model of an area. 
+Photogrammetry is easy to use these days and can be used to create a digital elevation models (DEM) of an area. 
 Image overlap plays an important role in the process of photogrammetry.
 A high overlap takes more time to gather in the field and takes longer to process.
 Less overlap usually results in a less accurate calculations. 
 In this paper the overlap of an area is artificially reduced and digital elevation models have been created with different image overlaps.
 The digital elevation models are compared to see how reducing the image overlap influences the result. 
-A boxplot has been made to compare to the absolute values of the DEM's.
-Large difference are visible, however when the scaled DEM's are plotted in a boxplot the difference appear to be minimal.
+When the absolute values of the DEM in compared large differences are visible.
+However, when the scaled DEM's are compared in a boxplot the differences appear to be minimal.
 Finally a violin plot has been made of the complete image set DEM minus the reduces image set DEM's.
 The more images are used, the more the difference of the DEM's is centered around 0.
+The DEM of the dataset with the highest images count seems to be the most similar to the DEM of the full dataset.
 }
 
 \keywords{Photogrammetry, Digital Elevation Model, Image Overlap, Agisoft Metashape}
@@ -78,26 +79,23 @@ The more images are used, the more the difference of the DEM's is centered aroun
 
 \section{Introduction}\label{Introduction}
 
-
 Photogrammetry is the process of reconstructing spatial information with images through computer vision. 
-The process uses similar points visible on multiple images to determine the points in space.
+These days most photogrammetry data is acquired with unmanned aerial vehicles (UAV) \citet{UAVAreMoreUsed}. 
+UAV's come with GNSS and provide high resolution images needed for photogrammetry.
+The process uses similar points visible on multiple images to determine the points in 3D space.
 The reconstruction certainty of these points is strongly dependent on the overlap between different images. 
-When a point is visible on more images, the reconstruction certainty will be higher.
-This is especially the case with the reconstruction of irregular formed object like vegetation \citep{AccessingImageOverlap}.
-With irregular objects, a higher overlap is preferred to capture each side of the object.
-If parts of the object are not visible on the image, they will not be reconstructed in the point cloud.
-So the overlap strongly influences the point cloud density in the dense cloud \citep{OptimalAltOverWeath}.
+Because most programs handle 2D data better than 3D data, the point cloud is usually used to build a digital elevation model (DEM) \citet{DemIncrease1}.
+
+A higher image overlap results in more similar image points which will increase the reconstruction certainty of the points \citep{MoreOverMoreAcc}.
+A higher image overlap, does not automatically results in a denser point cloud. \citep{EffectofUABimgcamover}. 
+A high overlap is needed in complex structures like vegatetion; if parts of the object are not visible on the image, they will not be reconstructed in the point cloud \citep{AccessingImageOverlap}.
+However, an image dataset with a high overlap takes longer to gather, and may results in multiple drone flights for a single dataset \citep{UAVpopularity}.
 In the reconstruction process, a high overlap will also result in longer computation time \citep{AccessingImageOverlap}
-However, a higher image overlap, does not automatically results in a higher point accuracy (x,y,z) \citep{EffectofUABimgcamover}. 
-With the development of cheap Unmanned Aerial Vehicles (UAV) photogrammetry has become more and more popular \citet{UAVAreMoreUsed}. 
-UAV's come with high resolution cameras, GNSS and are available almost anywhere these days.
-While UAV's do come with high resolution sensors and relatively cheap, small, high capacity batteries are not available \citep{UAVpopularity}.
-A high image overlap takes longer to gather than a low image overlap. 
-A drone can use a higher altitude so the sensor captures a larger area.
-however, with a higher flight altitude the detail of the image will be less than that of a drone with a lower flight altitude.
-This way the gathering process takes longer, and the UAV might even need to switch batteries instead of taking the images in a single flight.
 By reducing the image overlap, time and computing power may be saved without loosing too much spatial information.
 This main goal of this study is to investigate how different image overlap influence the DEM result that is created with photogrammetry. 
+
+
+
 
 
 \section{Materials and Methods}
@@ -199,12 +197,11 @@ This setting has resulted in the dense cloud with the most points.
 The TIN algorithm is used to built the DEM's \citep{axelsson1999processing}.
 The image overlap is now changed, therefore the DEM's have a slightly different extent.
 Because of this the largest common extent of the DEM's will be used to crop the DEM's resulting in four DEM's with an equal extent.
-The DEM's will be exported from Agisoft Metashape with the same pixel resolution of 17.5 cm per pixel.
+The DEM's will be exported from Agisoft Metashape with the same pixel resolution of 17.5 cm per pixel (1670 x 1290 pixels). 
 The DEM's will also be scaled to check the differences between the DEM's without looking at the absolute values.
 The scaling will be done by subtracting the mean and dividing by the standard deviation.
 For further comparison all of the DEM's will be subtracted from the full model DEM.
 This will result in three new DEM's that contain differences instead of height values.
-
 
 
 \section{Results}
@@ -221,7 +218,7 @@ In this figure the DEM's do no look similar at all.
 
 As can be seen from figure \ref{fig:BoxPlot_unscaled} the DEM's are indeed different from each other. 
 The outliers in the boxplot figure are probably the vegetation that is present in the area.
-For the low setting the DEM values range from -19.4 to 19.0, for the medium setting the values range from -22.7 to 16.2, for the high setting the values range from 13.1 to 20.0 and for the full model from -4.8 to 28.9.
+%For the low setting the DEM values range from -19.4 to 19.0, for the medium setting the values range from -22.7 to 16.2, for the high setting the values range from 13.1 to 20.0 and for the full model from -4.8 to 28.9.
 
 \begin{figure}[h]
     \centering
@@ -256,7 +253,7 @@ For medium setting the difference is slightly more centered around 0.0 than low 
 \begin{figure}[h]
     \centering
     \includegraphics[width=8cm]{ViolinPlotOrdered.png}
-    \caption{Violin plot of the difference between the full DEM and the reduced DEM's}
+    \caption{Violin plot of the difference between the full DEM and the reduced DEM's. All violin plots contain 2.154.300 measurements (DEM rows x DEM columns}
     \label{fig:ViolinPlot}
 \end{figure}
 
@@ -268,22 +265,29 @@ The image reduction in the paper was calculated in Agisoft Metashape with the Re
 The amount of images used in the processing does not seem to influence the density of the dense cloud, which was also concluded by \citet{EffectofUABimgcamover}.
 In this research the point confidence was not measured, the dense cloud were directly used to construct a DEM. 
 
-
 The input mesh for the Reduce Overlap was a 2.5D height field. 
 With more complex objects that need to processed as a real 3D object the amount of dense cloud may decrease if the amount of images is reduces significantly.
 Because the mesh was structured as a 2.5D surface, difficult points were removed from the model, e.g. in this case the tree structures were lost in the process.
 An other option is that the Reduce Overlap function will not have much influence on the image count.
 
 There is a large different between the absolute values between the different DEM's, this can be seen visually in figure \ref{fig:DemPlot_unscaled} and also when comparing the boxplot values in figure \ref{fig:BoxPlot_unscaled}.
-With the use of at least three ground control points the error in the absolute values of the can be reduced \citep{AssessingUAVGCPS, GCPbetterAccuracy}.
-Using GCP's in the different image dataset will reduce the absolute error, further research is needed how much is influence the relative error of the different DEM's
+With the use of at least three ground control points the error in the absolute values of the can be reduced \citep{AssessingUAVGCPS, GCPbetterAccuracy, GeoreferencedPointClouds}.
+Using GCP's in the different image dataset will reduce the absolute error.
+
+The violin plots indicate that the dataset with the highest image count is most similar to the full dataset; the difference of is more centered around zero, while the two lower image count datasets are more widespread (higher SD).
+The largest errors difference (around -5/5) between the scaled DEM seem to be the same for all the image datasets.
+The modelling software probably has difficulties in modelling the complex structures of the vegetation, resulting in a larger difference when the image count is lower.
+This could result in more error around vegetation canopies where the algorithm has difficulties in accurately measuring the height.
+An other option may changing the filtering setting provided by the Metashape dense cloud generation.
+In this research no depth filtering was used, by applying a more aggressive filtering technique the complex structures of the vegetation will be lost in the DEM generation \citep{AgisoftMetashape}.
+Further research is needed to see where this differences exactly occur and if a different depth filtering may result in different results.
 
 \section{Conclusion}
 Using different image overlap in the same area results in DEM's with different absolute values.
 The two image dataset with the least images show the largest difference in absolute value range compared to the original dataset with all images. 
 The image dataset with the highest image count, has a DEM that is most similar compared to the original dataset.
 When the scaled values are compared there seems to be a minimal difference between the DEM's.
-If more images are used in the dataset, the difference between the DEM's compared to the full images set becomes smaller; the DEM differences are more centered around 0.
+If more images are used in the dataset, the difference between the scaled DEM's compared to the full images set becomes smaller; the DEM differences are more centered around 0.
 
 
 % KAO: Sloppy spacing ensures non-overfull lines. Can be removed if this is not an issue.
@@ -303,3 +307,26 @@ If more images are used in the dataset, the difference between the DEM's compare
 
 \vspace{1cm}
 \end{document}
+
+
+
+
+
+Photogrammetry is the process of reconstructing spatial information with images through computer vision. 
+The process uses similar points visible on multiple images to determine the points in 3D space.
+The reconstruction certainty of these points is strongly dependent on the overlap between different images. 
+When a point is visible on more images, the reconstruction certainty will be higher \citep{MoreOverMoreAcc}.
+This is especially the case with the reconstruction of irregular formed object like vegetation \citep{AccessingImageOverlap}.
+With irregular objects, a higher overlap is preferred to capture each side of the object.
+If parts of the object are not visible on the image, they will not be reconstructed in the point cloud.
+In the reconstruction process, a high overlap will also result in longer computation time \citep{AccessingImageOverlap}
+However, a higher image overlap, does not automatically results in a denser point cloud. \citep{EffectofUABimgcamover}. 
+These days most photogrammetry data is acquired with Unmanned Aerial Vehicles (UAV) \citet{UAVAreMoreUsed}. 
+UAV's come with high resolution cameras, GNSS and are available almost anywhere these days.
+While UAV's do come with high resolution sensors and are relatively cheap, small, high capacity batteries are not available \citep{UAVpopularity}.
+A high image overlap takes longer to gather than a low image overlap. 
+A drone can use a higher altitude so the sensor captures a larger area.
+however, with a higher flight altitude the detail of the image will be less than that of a drone with a lower flight altitude.
+This way the gathering process takes longer, and the UAV might even need to switch batteries instead of taking the images in a single flight.
+By reducing the image overlap, time and computing power may be saved without loosing too much spatial information.
+This main goal of this study is to investigate how different image overlap influence the DEM result that is created with photogrammetry. 
