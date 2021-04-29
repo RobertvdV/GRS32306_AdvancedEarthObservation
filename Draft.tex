@@ -17,7 +17,6 @@
 \usepackage[labelsep=period]{caption}  % added 14-04-2016 Markus Englich - Recommendation by Sebastian Brocks
 \usepackage[british]{babel} 
 \usepackage[hang]{footmisc}
-%\setlength{\tabcolsep}{2pt}
 \def\footnotemargin{1em} % added 08-01-2020 Dennis Wittich
 \usepackage{fancyref}
 \pagestyle{plain}
@@ -132,55 +131,56 @@ The cloud processing is done on 32 vCPU's (Intel Xeon E5 2686 v4) with two NVIDI
 
 First, the complete data set has been aligned on medium quality.
 On medium alignment quality the original images are scaled to have 1/2 of the original size.
-%ADD MANUAL
 Next, the dense cloud was built on medium quality (no depth filtering), resulting in a dense cloud of 3,268,264 points.
 With medium settings the original photo is scaled to 1/4 before used in the dense cloud generation process.
-%ADD MANUAL
 A mesh was built using the the triangulated irregular network (TIN) algorithm by \citet{axelsson1999processing}. 
 finally after the mesh, the Reduce Overlap function was used to reduce the amount images used in the process of photogrammetry. 
 Because the final product of the photogrammetry process in this paper is a DEM a 2.5D height field was used when the mesh was generated
 The 2.5D height field mesh contains only one Z value for any X, Y coordinate combination, this is also the case in the final DEM.
 
+
 \textbf{Reduce Overlap.} 
 The algorithm of the Reduce Overlap function tries to select a minimal amount of images such that each point of the model is observed from N locations/angles.
 If a point is observed multiple times from the same location/angle, than this still counts as one. 
 As in this research a height field was used, the algorithm will probably take the vegetation canopy into account in the reconstruction, but lower branches may be lost in the process.
-This will have some influence on the Reduce Overlap setting; it becomes more flexible because single height values are used for each X, Y coordinate combination.
+This will has some influence on the Reduce Overlap setting; it becomes more flexible because single height values are for each X, Y coordinate combination is used.
 The algorithm and parameters behind the Agisoft Reduce Overlap function are proprietary software and therefore unfortunately unknown.
 In Agisoft Metashape the Reduce Overlap had three different settings, low, medium and high. 
 All of the settings are used and the remaining images are used for further processing.
+In table \ref{tab:ImageProcessing} the result of each Reduce Overlap settings can be found.
+The images available in table \ref{tab:ImageProcessing} will be treated as a unique dataset and will be used in the image processing pipeline from Agisoft.
+
+\textbf{Camera Locations.}
+After all the new datasets with the images have been aligned the camera locations are estimated, in figure \ref{fig:cameralocation} camera locations can be found. 
 The images are matched based on an adapted version of the SIFT algorithm \citep{lowe1999object, AgisoftMetashape}.
 All the datasets are processed on medium settings for the image alignment.
+None of the images used in the alignment process failed to align.
+
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1.9cm]{loc_low.png}
+    \includegraphics[width=1.9cm]{loc_med.png}
+    \includegraphics[width=1.9cm]{loc_high.png}
+    \includegraphics[width=1.9cm]{loc_full.png}
+    \caption{Estimated camera location. 
+    White: used in the image processing, red: disabled in the image processing.
+    Starting left: low, medium, high and full settings}
+    \label{fig:cameralocation}
+\end{figure}
 
 \textbf{Dense Cloud.}
 The result of the alignment of the images is used as input for the dense cloud generation.
-The data has been processing on medium settings without any depth filtering for the generation of the dense cloud. 
+The data has been processing on medium  settings without any depth filtering for the generation of the dense cloud. 
 
-\textbf{DEM.}
-The source data for the DEM's are the dense cloud results. 
-The dense clouds contain about the same amount of points with the exception for the lowest Reduce Overlap setting, This setting has resulted in the dense cloud with the most points.
-The TIN algorithm is used to built the DEM's \citep{axelsson1999processing}.
-Because the dense clouds are unique the TIN algorithm also results in four unique DEM's.
-These DEM's all have a slightly different extent and resolution.
-For further comparison the DEM's have all been cropped on the largest common extent and the pixel resolution was set to 17.5 cm per pixel (1670 x 1290 pixels).
-The DEM's were also be scaled to check the differences between the DEM's without looking at the absolute values.
-The scaling was be done by subtracting the mean and dividing by the standard deviation.
-For further comparison all of the DEM's were be subtracted from the full model DEM.
-This will result in three new DEM's that contain differences instead of height values.
-These data will be used to inspect the differences between the scaled DEM of the full image dataset and the scaled DEM's of the other datasets.
-
-\section{Results}
-In table \ref{tab:ImageProcessing} the result of each Reduce Overlap settings can be found.
+In table \ref{tab:ImageProcessing} an overview of the image processing results can be found.
 
 \begin{table}[h]
     \centering
     \caption{Image Processing Results}
     \begin{tabular}{@{}cccc@{}}
     \toprule
-    \textbf{\begin{tabular}[c]{@{}c@{}}Reduce Overlap \\ Setting\end{tabular}} &
-      \textbf{\begin{tabular}[c]{@{}c@{}}Image\\ Count\end{tabular}} &
-      \textbf{Sparse  Cloud} &
-      \textbf{Dense Cloud} \\ \midrule
+    \textbf{Setting} & \textbf{Images} & \multicolumn{1}{l}{\textbf{Sparse Cloud}} & \multicolumn{1}{l}{\textbf{Dense Cloud}} \\ \midrule
     -      & 111 & 80,901 & 3,269,264 \\
     Low    & 44  & 37,886 & 4,172,783 \\
     Medium & 70  & 54,556 & 3,313,399 \\
@@ -198,30 +198,29 @@ For all the different datasets the processing time can be found in table \ref{ta
     \label{tab:processingTime}
     \begin{tabular}{@{}cccc@{}}
     \toprule
-    \textbf{Image Count} & \textbf{Sparse  Cloud} & \textbf{Dense Cloud} & \textbf{Dem} \\ \midrule
-    111                  & 150                    & 292                  & 17           \\
-    44                   & 59                     & 443                  & 16           \\
-    70                   & 83                     & 147                  & 17           \\
-    75                   & 129                    & 159                  & 17           \\ \bottomrule
-    \end{tabular}
+    \textbf{Setting} & \textbf{Sparse Cloud} & \multicolumn{1}{l}{\textbf{Dense Cloud}} & \multicolumn{1}{l}{\textbf{DEM}} \\ 
+    \midrule
+    -      & 150 & 292 & 17 \\
+    Low    & 59  & 443 & 16 \\
+    Medium & 83  & 147 & 17 \\
+    High   & 129 & 159 & 17 \\ \bottomrule
+\end{tabular}
 \end{table}
 
-After all the new datasets with the images have been aligned the camera locations are estimated, in figure \ref{fig:cameralocation} camera locations can be found. 
-None of the images used in the alignment process failed to align.
+\textbf{DEM.}
+The source data for the DEM's are the dense cloud results. 
+The dense clouds contain about the same amount of points with the exception for the lowest Reduce Overlap setting, This setting has resulted in the dense cloud with the most points.
+The TIN algorithm is used to built the DEM's \citep{axelsson1999processing}.
+Because the dense clouds are unique the TIN algorithm also results in four unique DEM's.
+These DEM's all have a slightly different extent and resolution.
+For further comparison the DEM's have all been cropped on the largest common extent and the pixel resolution was set to 17.5 cm per pixel (1670 x 1290 pixels).
+The DEM's will also be scaled to check the differences between the DEM's without looking at the absolute values.
+The scaling will be done by subtracting the mean and dividing by the standard deviation.
+For further comparison all of the DEM's will be subtracted from the full model DEM.
+This will result in three new DEM's that contain differences instead of height values.
+These data will be used to inspect the differences between the scaled DEM of the full image dataset and the scaled DEM's of the other datasets.
 
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=1.9cm]{loc_low.png}
-    \includegraphics[width=1.9cm]{loc_med.png}
-    \includegraphics[width=1.9cm]{loc_high.png}
-    \includegraphics[width=1.9cm]{loc_full.png}
-    \caption{Estimated camera location. 
-    White: used in the image processing, red: disabled in the image processing.
-    Starting left: low, medium, high and full settings}
-    \label{fig:cameralocation}
-\end{figure}
-
+\section{Results}
 In figure \ref{fig:DemPlot_unscaled} the DEM's are visualized using the same color range. 
 In this figure the DEM's do no look similar at all.
 
