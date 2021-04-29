@@ -158,7 +158,6 @@ The data has been processing on medium settings without any depth filtering for 
 
 \textbf{DEM.}
 The source data for the DEM's are the dense cloud results. 
-The dense clouds contain about the same amount of points with the exception for the lowest Reduce Overlap setting, This setting has resulted in the dense cloud with the most points.
 The TIN algorithm is used to built the DEM's \citep{axelsson1999processing}.
 Because the dense clouds are unique the TIN algorithm also results in four unique DEM's.
 These DEM's all have a slightly different extent and resolution.
@@ -166,11 +165,12 @@ For further comparison the DEM's have all been cropped on the largest common ext
 The DEM's were also be scaled to check the differences between the DEM's without looking at the absolute values.
 The scaling was be done by subtracting the mean and dividing by the standard deviation.
 For further comparison all of the DEM's were be subtracted from the full model DEM.
-This will result in three new DEM's that contain differences instead of height values.
-These data will be used to inspect the differences between the scaled DEM of the full image dataset and the scaled DEM's of the other datasets.
+%%% CHECK THIS
+These data will be used to inspect the differences between the scaled DEM of the full image dataset compared to the other DEM's.
 
 \section{Results}
-In table \ref{tab:ImageProcessing} the result of each Reduce Overlap settings can be found.
+In table \ref{tab:ImageProcessing} the result of image processing for each Reduce Overlap settings can be found. 
+The dense clouds contain about the same amount of points with the exception for the lowest Reduce Overlap setting, This setting has resulted in the dense cloud with the most points.
 
 \begin{table}[h]
     \centering
@@ -178,9 +178,9 @@ In table \ref{tab:ImageProcessing} the result of each Reduce Overlap settings ca
     \begin{tabular}{@{}cccc@{}}
     \toprule
     \textbf{\begin{tabular}[c]{@{}c@{}}Reduce Overlap \\ Setting\end{tabular}} &
-      \textbf{\begin{tabular}[c]{@{}c@{}}Image\\ Count\end{tabular}} &
-      \textbf{Sparse  Cloud} &
-      \textbf{Dense Cloud} \\ \midrule
+    \textbf{\begin{tabular}[c]{@{}c@{}}Image\\ Count\end{tabular}} &
+    \textbf{Sparse  Cloud} &
+    \textbf{Dense Cloud} \\ \midrule
     -      & 111 & 80,901 & 3,269,264 \\
     Low    & 44  & 37,886 & 4,172,783 \\
     Medium & 70  & 54,556 & 3,313,399 \\
@@ -190,7 +190,7 @@ In table \ref{tab:ImageProcessing} the result of each Reduce Overlap settings ca
 \end{tabular}
 \end{table}
 
-For all the different datasets the processing time can be found in table \ref{tab:processingTime}. 
+For all the different datasets the processing time can be found in table \ref{tab:processingTime}.  
 
 \begin{table}[h]
     \centering
@@ -227,7 +227,7 @@ In this figure the DEM's do no look similar at all.
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=8cm]{DemPlots.png}
+    \includegraphics[width=8.5cm]{DemPlots.png}
     \caption{DEM Results of the Reduce Overlap}
     \label{fig:DemPlot_unscaled}
 \end{figure}
@@ -235,7 +235,7 @@ In this figure the DEM's do no look similar at all.
 As can be seen from figure \ref{fig:BoxPlot_unscaled} the DEM's are indeed different from each other. 
 For the low setting the DEM values range from -19.4 to 19.0, for the medium setting the values range from -22.7 to 16.2, for the high setting the values range from 13.1 to 20.0 and for the full model from -4.8 to 28.9.
 
-\begin{figure}[h]
+\begin{figure}[h!]
     \centering
     \includegraphics[width=8cm]{DemBoxplot.png}
     \caption{Box plots of the DEM Results of the Reduce Overlap}
@@ -244,6 +244,8 @@ For the low setting the DEM values range from -19.4 to 19.0, for the medium sett
 
 Figure \ref{fig:DemPlot_scaled} contains the same visualization of DEM plots, only for all the DEM's the data has been scaled.
 There is almost no visual difference visible in the figure, the DEM's look quite similar.
+This is confirmed in figure \ref{fig:BoxPlot_scaled}, only now the boxplot contain the scaled data values.
+These difference seem to be minimal in the scaled boxplots.
 
 \begin{figure}[h]
     \centering
@@ -252,8 +254,7 @@ There is almost no visual difference visible in the figure, the DEM's look quite
     \label{fig:DemPlot_scaled}
 \end{figure}
 
-The same applies for figure \ref{fig:BoxPlot_scaled}, only now the boxplot contain the scaled data values.
-There difference seem to be minimal in the scaled boxplots.
+
 
 \begin{figure}[h]
     \centering
@@ -262,8 +263,8 @@ There difference seem to be minimal in the scaled boxplots.
     \label{fig:BoxPlot_scaled}
 \end{figure}
 
-Figure \ref{fig:ViolinPlot} contains three violin plots. For each of the plots the scaled DEM's from the reduces image datasets has been subtracted from the scaled full dataset DEM.
-It is visible that the overall error of the scaled DEM's varies from around -5.0 to 5.0.
+Figure \ref{fig:ViolinPlot} contains three violin plots. For each of the plots the scaled DEM's from the reduced image datasets has been subtracted from the scaled full dataset DEM.
+It is visible that the overall scaled error difference of the scaled DEM's varies from around -5.0 to 5.0.
 For the high settings, the differences are more centered around zero, while this is not the case for low and medium settings.
 For medium setting the difference is slightly more centered around 0.0 than low settings.
 
