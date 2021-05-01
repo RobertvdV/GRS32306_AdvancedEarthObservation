@@ -66,8 +66,9 @@ Photogrammetry is easy to use these days and can be used to create a digital ele
 Image overlap plays an important role in the process of photogrammetry.
 A high overlap takes more time to gather in the field and takes longer to process.
 Less overlap usually results in a less accurate calculations. 
-In this paper the overlap of an area is artificially reduced and digital elevation models have been created with different image overlaps.
-The DEM's are compared to see how reducing the image overlap influences the result. 
+In this paper the overlap of an area is artificially reduced.
+The image count does have a positive influence on the sparse cloud, but no influence on the points in the dense cloud.
+The DEM's are compared to see how reducing the image overlap influences the DEM result. 
 When the absolute values of the DEM are compared large differences are visible.
 However, when the scaled DEM's are compared in a boxplot the differences appear to be minimal.
 Finally, violin plots have been made of the complete image set DEM minus the reduces image set DEM's.
@@ -110,7 +111,7 @@ It will be investigated how the different image overlap influence the intermedia
 
 \subsection{Study Area}\label{sec:Study Area}
 The data covers an area in Ghana, about 20km south east of Ejura (lat. 7.3064212, lon. -1.164493). 
-The area of interest is about 25000 m\textsuperscript{2} and consists mostly of savanna area.
+The area of interest is about 25000 m\textsuperscript{2} and consists of savanna area.
 There are a few trees present on the observed location.
 Each image has a resolution of 4000 times 3000 and was taken by a DJI Phantom 3.
 The images all contain a GNNS location (WGS84). 
@@ -131,13 +132,11 @@ All data have been processed on the cloud service provided by Agisoft (\url{http
 The cloud processing is done on 32 vCPU's (Intel Xeon E5 2686 v4) with two NVIDIA Tesla M60 GPU's and 240 GB of RAM.
 
 First, the complete data set has been aligned on medium quality.
-On medium alignment quality the original images are scaled to have 1/2 of the original size.
-%ADD MANUAL
+On medium alignment quality the original images are scaled to have 1/2 of the original size \citep{manual}.
 Next, the dense cloud was built on medium quality (no depth filtering), resulting in a dense cloud of 3,268,264 points.
-With medium settings the original photo is scaled to 1/4 before used in the dense cloud generation process.
-%ADD MANUAL
+With medium settings the original photo is scaled to 1/4 before used in the dense cloud generation process \citep{manual}.
 A mesh was built using the the triangulated irregular network (TIN) algorithm by \citet{axelsson1999processing}. 
-finally after the mesh, the Reduce Overlap function was used to reduce the amount images used in the process of photogrammetry. 
+Finally after the mesh, the Reduce Overlap function was used to reduce the amount images used in the process of photogrammetry. 
 Because the final product of the photogrammetry process in this paper is a DEM a 2.5D height field was used when the mesh was generated
 The 2.5D height field mesh contains only one Z value for any X, Y coordinate combination, this is also the case in the final DEM.
 
@@ -164,28 +163,29 @@ These DEM's all have a slightly different extent and resolution.
 For further comparison the DEM's have all been cropped on the largest common extent and the pixel resolution was set to 17.5 cm per pixel (1670 x 1290 pixels).
 The DEM's were also be scaled to check the differences between the DEM's without looking at the absolute values.
 The scaling was be done by subtracting the mean and dividing by the standard deviation.
-For further comparison all of the DEM's were be subtracted from the full model DEM.
-%%% CHECK THIS
+The scaled DEM's will be subtracted from the scaled full image count DEM.
 These data will be used to inspect the differences between the scaled DEM of the full image dataset compared to the other DEM's.
 
 \section{Results}
-In table \ref{tab:ImageProcessing} the result of image processing for each Reduce Overlap settings can be found. 
-The dense clouds contain about the same amount of points with the exception for the lowest Reduce Overlap setting, This setting has resulted in the dense cloud with the most points.
+In table \ref{tab:ImageProcessing} the results of the Reduce Overlap settings for the three different settings can be found. 
+This figure also contains the image processing results for the newly created datasets.
+The lower the Reduce Overlap setting, the less images are left in a dataset, the less points are generated in the sparse cloud.
+The dense clouds contain about the same amount of points with the exception for the lowest Reduce Overlap setting.
+The image set with the lowest image count has resulted in the dense cloud with the most points.
 
 \begin{table}[h]
     \centering
-    \caption{Image Processing Results}
+    \caption{Reduce Overlap and Image Processing Results}
     \begin{tabular}{@{}cccc@{}}
     \toprule
     \textbf{\begin{tabular}[c]{@{}c@{}}Reduce Overlap \\ Setting\end{tabular}} &
     \textbf{\begin{tabular}[c]{@{}c@{}}Image\\ Count\end{tabular}} &
-    \textbf{Sparse  Cloud} &
-    \textbf{Dense Cloud} \\ \midrule
+    \textbf{\begin{tabular}[c]{@{}c@{}}Sparse Cloud\\ Points\end{tabular}} &
+    \textbf{\begin{tabular}[c]{@{}c@{}}Dense Cloud\\ Points\end{tabular}} \\ \midrule
     -      & 111 & 80,901 & 3,269,264 \\
     Low    & 44  & 37,886 & 4,172,783 \\
     Medium & 70  & 54,556 & 3,313,399 \\
     High   & 75  & 49,692 & 3,276,832 \\ \bottomrule
-    % Add processing time!
     \label{tab:ImageProcessing}
 \end{tabular}
 \end{table}
@@ -225,9 +225,9 @@ None of the images used in the alignment process failed to align.
 In figure \ref{fig:DemPlot_unscaled} the DEM's are visualized using the same color range. 
 In this figure the DEM's do no look similar at all.
 
-\begin{figure}[h]
+\begin{figure}[h!]
     \centering
-    \includegraphics[width=8.5cm]{DemPlots.png}
+    \includegraphics[width=7cm]{DEM2x2.png}
     \caption{DEM Results of the Reduce Overlap}
     \label{fig:DemPlot_unscaled}
 \end{figure}
@@ -249,7 +249,7 @@ These difference seem to be minimal in the scaled boxplots.
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=8cm]{DemPlots_scaled.png}
+    \includegraphics[width=7cm]{DEM2x2_scaled.png}
     \caption{Scaled DEM Results of the Reduce Overlap}
     \label{fig:DemPlot_scaled}
 \end{figure}
@@ -273,6 +273,16 @@ For medium setting the difference is slightly more centered around 0.0 than low 
     \includegraphics[width=8cm]{ViolinPlotOrdered.png}
     \caption{Violin plot of the difference between the full DEM and the reduced DEM's. All violin plots contain 2.154.300 measurements (1.670 rows x 1.290 columns)}
     \label{fig:ViolinPlot}
+\end{figure}
+
+In figure \ref{fig:ScaledDifference} the place of the values from the violin plot can be found.
+In this figure it is visible that the difference seems to be lower when the image count increases.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=8cm]{ScaledDemSubstraction.png}
+    \caption{The difference between the original DEM and the scaled DEM's from the reduced image datasets)}
+    \label{fig:ScaledDifference}
 \end{figure}
 
 
