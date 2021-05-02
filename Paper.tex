@@ -83,29 +83,28 @@ The DEM of the dataset with the highest images count seems to be the most simila
 %\saythanks % added 28-02-2014 Markus Englich
 
 \section{Introduction}\label{Introduction}
-
 Photogrammetry is the process of reconstructing spatial information with images through computer vision. 
 These days most photogrammetry data is acquired with unmanned aerial vehicles (UAV) \citep{UAVAreMoreUsed}. 
 UAV's come with GNSS and provide high resolution images needed for photogrammetry.
 The process uses similar points visible on multiple images to determine the points in 3D space.
-The reconstruction certainty of these points is strongly dependent on the overlap between different images. 
-A digital elevation model (DEM) is a popular product from photogrammetry \citep{DemIncrease1}.
+This will result in a dense cloud containing point with X, Y, Z values.
+The reconstruction certainty of these points is strongly dependent on the overlap between different images.
+The dense cloud can be used to create a digital elevation model (DEM).
+A DEM is a popular product from photogrammetry \citep{DemIncrease1}.
 A DEM is a 2D grid containing height values and is frequently used in geoinformation applications.
 It is therefore important to create high quality DEM's.
+The quality of the DEM relies on the previous step in the photogrammetry process, the dense cloud.
 
 A higher image overlap results in more similar image points, which will increase the reconstruction certainty of the points \citep{MoreOverMoreAcc}.
 A higher image overlap, does not automatically results in a denser point cloud. \citep{EffectofUABimgcamover}. 
 A high overlap is needed in complex structures like vegetation; if parts of the object are not visible on the image, they will not be reconstructed in the point cloud \citep{AccessingImageOverlap}.
-However, an image dataset with a high overlap takes longer to gather, and may require multiple drone flights for a single dataset \citep{uavpop}.
+However, an image dataset with a high overlap takes longer to gather, and may require multiple drone flights for a single dataset \citep{rosnell2012point}.
+
 In the reconstruction process, a high overlap will also result in longer computation time \citep{AccessingImageOverlap}
 By reducing the image overlap, time and computing power may be saved without loosing too much spatial information.
 %The goal of this study is to investigate the results on the image processing results of using reduced image sets of the same area. 
-This main goal of this study is to investigate how different image overlap influences the DEM result that is created with photogrammetry.
-It will be investigated how the different image overlap influence the intermediate photogrammetry results and processing time.
-
-
-
-
+The main goal of this study is to investigate how different image overlap of the same area influence the photogrammetry results, and especially the DEM result.
+The processing time of each step will be recorded and a comparison between the full DEM and the DEM's from the reduced image overlap datasets will be made.
 
 \section{Materials and Methods}
 
@@ -227,7 +226,7 @@ In this figure the DEM's do no look similar at all.
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=7cm]{DEM2x2.png}
+    \includegraphics[width=7.5cm]{DEM2x2.png}
     \caption{DEM Results of the Reduce Overlap}
     \label{fig:DemPlot_unscaled}
 \end{figure}
@@ -244,19 +243,18 @@ For the low setting the DEM values range from -19.4 to 19.0, for the medium sett
 
 Figure \ref{fig:DemPlot_scaled} contains the same visualization of DEM plots, only for all the DEM's the data has been scaled.
 There is almost no visual difference visible in the figure, the DEM's look quite similar.
-This is confirmed in figure \ref{fig:BoxPlot_scaled}, only now the boxplot contain the scaled data values.
-These difference seem to be minimal in the scaled boxplots.
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=7cm]{DEM2x2_scaled.png}
+    \includegraphics[width=7.5cm]{DEM2x2_scaled.png}
     \caption{Scaled DEM Results of the Reduce Overlap}
     \label{fig:DemPlot_scaled}
 \end{figure}
 
+This is confirmed in figure \ref{fig:BoxPlot_scaled}, only now the boxplot contain the scaled data values.
+These difference seem to be minimal in the scaled boxplots.
 
-
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics[width=8cm]{DemBoxPlot_Scaled.png}
     \caption{Scaled DEM Results of the Reduce Overlap}
@@ -276,28 +274,27 @@ For medium setting the difference is slightly more centered around 0.0 than low 
 \end{figure}
 
 In figure \ref{fig:ScaledDifference} the place of the values from the violin plot can be found.
-In this figure it is visible that the difference seems to be lower when the image count increases.
+In this figure it is visible that the difference seems to be less when the image count increases.
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=8cm]{ScaledDemSubstraction.png}
-    \caption{The difference between the original DEM and the scaled DEM's from the reduced image datasets)}
+    \includegraphics[width=8cm]{ScaledDif_EqualBins.png}
+    \caption{The difference between the original DEM and the scaled DEM's from the reduced image datasets}
     \label{fig:ScaledDifference}
 \end{figure}
 
-
 \section{Discussion}
-The goal of this research was to assess the difference between DEM's of the same area with different image overlap. 
+The goal of this research was to see how a different image overlap of the same areas influences the different steps in the photogrammetry pipeline and especially the DEM result.
+The processing time is also investigated.
 The image reduction in the paper was calculated in Agisoft Metashape with the Reduce Overlap function.
-The amount of images used in the processing does not seem to influence the density of the dense cloud, which was also concluded by \citet{EffectofUABimgcamover}.
-In this research the point confidence was not measured, the dense cloud were directly used to construct a DEM. 
 
-%The input mesh for the Reduce Overlap was a 2.5D height field. 
-%This could be of influence, because the 2.5D mesh only takes one single height value into account for each %X, Y combination. 
-
-%With more complex objects that need to processed as a real 3D object the quality of dense cloud may decrease if the amount of images is reduces significantly.
-%Because the mesh was structured as a 2.5D surface, difficult points were removed from the model, e.g. in this case the tree canopies were constructed, but e.g. lower branches were lost in the construction process.
-%An other option is that the Reduce Overlap function will not have much influence on the image count.
+The processing time and the alignment of the images are dependent on the image count.
+Less images result in less computation time, but also less points in the sparse cloud.
+The amount of images used in the processing does not seem to influence the density of the dense cloud, which was also concluded by \citet{EffectofUABimgcamover} 
+The only exception was building the dense cloud for the image data set with the lowest count. 
+%NOG IETS OVER SCHRIJVEN
+However, the image count does influence the time needed to generate the dense cloud; more images means more time needed.
+There is no time difference in the generation of DEM, this is also not a computationally expensive step.
 
 There is a large different between the absolute values between the different DEM's, this can be seen visually in figure \ref{fig:DemPlot_unscaled} and also when comparing the boxplot values in figure \ref{fig:BoxPlot_unscaled}.
 The outliers in both boxplot figures are probably the vegetation that is present in the area as the boxplots only contain high outliers.
@@ -306,15 +303,18 @@ Using GCP's in the different image dataset will reduce the absolute error.
 
 The violin plots indicate that the dataset with the highest image count is most similar to the full dataset; the difference of is more centered around zero, while the two lower image count datasets are more widespread.
 The largest errors differences (around -5/5) between the scaled DEM seem to be the same for all the image datasets.
-The modelling software probably has difficulties in modelling the complex structures of the vegetation, resulting in a larger difference when the image count is lower.
+This is confirmed by looking at the difference between the scaled DEM's in \ref{fig:ScaledDifference}.
+The modelling software seems to have difficulties in modelling the complex structures of the vegetation with a lower image count, resulting in a larger difference when the image count is lower.
 This could result in more error around vegetation canopies where the algorithm has difficulties in accurately measuring the height. 
-\citet{AccessingImageOverlap} also concluded that for complex structures a higher image overlap provides better results.
+\citet{AccessingImageOverlap} also concluded that for complex structures a higher image overlap provides better results. 
+However, in this research this is only visibly assessed as the vegetation locations have not been extracted from the full image dataset.
 An other option may changing the filtering setting provided by the Metashape dense cloud generation.
 In this research no depth filtering was used, by applying a more aggressive filtering technique the complex structures of the vegetation will be lost in the DEM generation \citep{AgisoftMetashape}.
 Further research is needed to see where this differences exactly occur and if a different depth filtering may result in different results.
 
 \section{Conclusion}
-Using different image overlap in the same area results in DEM's with different absolute values.
+The image overlap does influence the processing time in the photogrammetry process.
+Using different image overlap of the same area results in DEM's with different absolute values.
 The two image dataset with the least images show the largest difference in absolute value range compared to the original dataset with all images. 
 The image dataset with the highest image count, has a DEM that is most similar compared to the original dataset.
 When the scaled values are compared there seems to be a minimal difference between the DEM's.
