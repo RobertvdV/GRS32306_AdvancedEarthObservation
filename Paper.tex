@@ -74,6 +74,7 @@ However, when the scaled DEM's are compared in a boxplot the differences appear 
 Finally, violin plots have been made of the complete image set DEM minus the reduces image set DEM's.
 The more images are used, the more the difference of the DEM's is centered around 0.
 The DEM of the dataset with the highest images count seems to be the most similar to the DEM of the full dataset.
+The differences between the DEM's seem to occur around vegetation.
 }
 
 \keywords{Photogrammetry, Digital Elevation Model, Image Overlap, Agisoft Metashape}
@@ -306,8 +307,9 @@ The largest errors differences (around -5/5) between the scaled DEM seem to be t
 This is confirmed by looking at the difference between the scaled DEM's in \ref{fig:ScaledDifference}.
 The modelling software seems to have difficulties in modelling the complex structures of the vegetation with a lower image count, resulting in a larger difference when the image count is lower.
 This could result in more error around vegetation canopies where the algorithm has difficulties in accurately measuring the height. 
-\citet{AccessingImageOverlap} also concluded that for complex structures a higher image overlap provides better results. 
-However, in this research this is only visibly assessed as the vegetation locations have not been extracted from the full image dataset.
+\citet{AccessingImageOverlap} also concluded that for complex structures a higher image overlap provides better results.
+However, in this research this is only visibly assessed as no ground truth vegetation locations have not been extracted from the full image dataset.
+
 An other option may changing the filtering setting provided by the Metashape dense cloud generation.
 In this research no depth filtering was used, by applying a more aggressive filtering technique the complex structures of the vegetation will be lost in the DEM generation \citep{AgisoftMetashape}.
 Further research is needed to see where this differences exactly occur and if a different depth filtering may result in different results.
