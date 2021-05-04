@@ -281,8 +281,8 @@ In figure \ref{fig:ScaledDifference} the differences of the scaled DEM's have be
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=7cm]{veg_diff_vert_2.png}
-    \caption{The difference between the original DEM and the scaled DEM's from the reduced image datasets. Negative differences are color red and positive differences are color grey. The vegetation ground truth data has been plotted with a light green color underneath the differences.}
+    \includegraphics[width=7cm]{finalvegplot.png}
+    \caption{The difference between the original DEM and the scaled DEM's from the reduced image datasets. Negative differences are color red and positive differences are color grey. The vegetation ground truth data has been plotted in the right bottom and with a light green color underneath the differences.}
     \label{fig:ScaledDifference}
 \end{figure}
 
@@ -347,23 +347,3 @@ The differences all seem to occur around the vegetation.
 
 
 
-
-
-Photogrammetry is the process of reconstructing spatial information with images through computer vision. 
-The process uses similar points visible on multiple images to determine the points in 3D space.
-The reconstruction certainty of these points is strongly dependent on the overlap between different images. 
-When a point is visible on more images, the reconstruction certainty will be higher \citep{MoreOverMoreAcc}.
-This is especially the case with the reconstruction of irregular formed object like vegetation \citep{AccessingImageOverlap}.
-With irregular objects, a higher overlap is preferred to capture each side of the object.
-If parts of the object are not visible on the image, they will not be reconstructed in the point cloud.
-In the reconstruction process, a high overlap will also result in longer computation time \citep{AccessingImageOverlap}
-However, a higher image overlap, does not automatically results in a denser point cloud. \citep{EffectofUABimgcamover}. 
-These days most photogrammetry data is acquired with Unmanned Aerial Vehicles (UAV) \citet{UAVAreMoreUsed}. 
-UAV's come with high resolution cameras, GNSS and are available almost anywhere these days.
-While UAV's do come with high resolution sensors and are relatively cheap, small, high capacity batteries are not available \citep{UAVpopularity}.
-A high image overlap takes longer to gather than a low image overlap. 
-A drone can use a higher altitude so the sensor captures a larger area.
-however, with a higher flight altitude the detail of the image will be less than that of a drone with a lower flight altitude.
-This way the gathering process takes longer, and the UAV might even need to switch batteries instead of taking the images in a single flight.
-By reducing the image overlap, time and computing power may be saved without loosing too much spatial information.
-This main goal of this study is to investigate how different image overlap influence the DEM result that is created with photogrammetry. 
