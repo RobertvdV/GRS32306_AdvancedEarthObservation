@@ -41,15 +41,17 @@
 
 \begin{document}
 
-\title{Assessing Digital Elevation Models with different image overlap using photogrammetry}
+\title{Assessing differences in the photogrammetry process with different image overlap}
 
 % KAO: Remove extra spacing
-\author{Robert van de Vlasakker\textsuperscript{a}}
+\author{Robert van de Vlasakker\textsuperscript{1}}
 
 % KAO: Remove extra newline
 \address{
-    \textsuperscript{a}
-    Wageningen University \& Research} % Not needed
+	\textsuperscript{1 }Laboratory of Geo-information Science and Remote
+Sensing, Wageningen University \& Research,\\
+Robert.vandeVlasakker@wur.nl
+}
 
 % If the corresponding author is NOT the final author, always add a % space before the subsequent comma, i.e.
 % first author name\textsuperscript{a,}\thanks{Corresponding author} , % second author name \textsuperscript{b}, etc.
@@ -70,11 +72,11 @@ In this paper the overlap of an area is artificially reduced.
 The image count does have a positive influence on the sparse cloud, but no influence on the points in the dense cloud.
 The DEM's are compared to see how reducing the image overlap influences the DEM result. 
 When the absolute values of the DEM are compared large differences are visible.
-However, when the scaled DEM's are compared in a boxplot the differences appear to be minimal.
-Finally, violin plots have been made of the complete image set DEM minus the reduces image set DEM's.
+However, when the scaled DEM's are compared the differences appear to be minimal.
+Violin plots have been made of the complete image set DEM minus the reduces image set DEM's.
 The more images are used, the more the difference of the DEM's is centered around 0.
 The DEM of the dataset with the highest images count seems to be the most similar to the DEM of the full dataset.
-The differences between the DEM's seem to occur around vegetation.
+When plotted the differences between the scaled DEM's seem to occur around vegetation.
 }
 
 \keywords{Photogrammetry, Digital Elevation Model, Image Overlap, Agisoft Metashape}
@@ -91,16 +93,15 @@ The process uses similar points visible on multiple images to determine the poin
 This will result in a dense cloud containing point with X, Y, Z values.
 The reconstruction certainty of these points is strongly dependent on the overlap between different images.
 The dense cloud can be used to create a digital elevation model (DEM).
-A DEM is a popular product from photogrammetry \citep{DemIncrease1}.
+A DEM is a popular result from photogrammetry \citep{DemIncrease1}.
 A DEM is a 2D grid containing height values and is frequently used in geoinformation applications.
 It is therefore important to create high quality DEM's.
-The quality of the DEM relies on the previous step in the photogrammetry process, the dense cloud.
 
-A higher image overlap results in more similar image points, which will increase the reconstruction certainty of the points \citep{MoreOverMoreAcc}.
+The quality of the DEM relies on the previous step in the photogrammetry process, the dense cloud.
+A higher image overlap results in more similar image points, which will increase the reconstruction certainty of the points in the dense cloud \citep{MoreOverMoreAcc}.
 A higher image overlap, does not automatically results in a denser point cloud. \citep{EffectofUABimgcamover}. 
 A high overlap is needed in complex structures like vegetation; if parts of the object are not visible on the image, they will not be reconstructed in the point cloud \citep{AccessingImageOverlap}.
 However, an image dataset with a high overlap takes longer to gather, and may require multiple drone flights for a single dataset \citep{rosnell2012point}.
-
 In the reconstruction process, a high overlap will also result in longer computation time \citep{AccessingImageOverlap}
 By reducing the image overlap, time and computing power may be saved without loosing too much spatial information.
 %The goal of this study is to investigate the results on the image processing results of using reduced image sets of the same area. 
@@ -154,6 +155,8 @@ All the datasets are processed on medium settings for the image alignment.
 \textbf{Dense Cloud.}
 The result of the alignment of the images is used as input for the dense cloud generation.
 The data has been processing on medium settings without any depth filtering for the generation of the dense cloud. 
+In Agisoft Metashape the dense cloud classification algorithm was used to classify the dense cloud in ground points and vegetation points. 
+The vegetation is used as ground truth data for further analysis.
 
 \textbf{DEM.}
 The source data for the DEM's are the dense cloud results. 
@@ -227,7 +230,7 @@ In this figure the DEM's do no look similar at all.
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=7.5cm]{DEM2x2.png}
+    \includegraphics[width=6.5cm]{DEM2x2.png}
     \caption{DEM Results of the Reduce Overlap}
     \label{fig:DemPlot_unscaled}
 \end{figure}
@@ -237,7 +240,7 @@ For the low setting the DEM values range from -19.4 to 19.0, for the medium sett
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=8cm]{DemBoxplot.png}
+    \includegraphics[width=7.5cm]{DemBoxplot.png}
     \caption{Box plots of the DEM Results of the Reduce Overlap}
     \label{fig:BoxPlot_unscaled}
 \end{figure}
@@ -247,7 +250,7 @@ There is almost no visual difference visible in the figure, the DEM's look quite
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=7.5cm]{DEM2x2_scaled.png}
+    \includegraphics[width=6.5cm]{DEM2x2_scaled.png}
     \caption{Scaled DEM Results of the Reduce Overlap}
     \label{fig:DemPlot_scaled}
 \end{figure}
@@ -255,9 +258,9 @@ There is almost no visual difference visible in the figure, the DEM's look quite
 This is confirmed in figure \ref{fig:BoxPlot_scaled}, only now the boxplot contain the scaled data values.
 These difference seem to be minimal in the scaled boxplots.
 
-\begin{figure}[ht]
+\begin{figure}[h!]
     \centering
-    \includegraphics[width=8cm]{DemBoxPlot_Scaled.png}
+    \includegraphics[width=7.5cm]{DemBoxPlot_Scaled.png}
     \caption{Scaled DEM Results of the Reduce Overlap}
     \label{fig:BoxPlot_scaled}
 \end{figure}
@@ -269,18 +272,17 @@ For medium setting the difference is slightly more centered around 0.0 than low 
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=8cm]{ViolinPlotOrdered.png}
+    \includegraphics[width=6.5cm]{ViolinPlotOrdered.png}
     \caption{Violin plot of the difference between the full DEM and the reduced DEM's. All violin plots contain 2.154.300 measurements (1.670 rows x 1.290 columns)}
     \label{fig:ViolinPlot}
 \end{figure}
 
-In figure \ref{fig:ScaledDifference} the place of the values from the violin plot can be found.
-In this figure it is visible that the difference seems to be less when the image count increases.
+In figure \ref{fig:ScaledDifference} the differences of the scaled DEM's have been plotted on top of the ground truth vegetation.
 
-\begin{figure}[h!]
+\begin{figure}[h]
     \centering
-    \includegraphics[width=8cm]{ScaledDif_EqualBins.png}
-    \caption{The difference between the original DEM and the scaled DEM's from the reduced image datasets}
+    \includegraphics[width=7cm]{veg_diff_vert_2.png}
+    \caption{The difference between the original DEM and the scaled DEM's from the reduced image datasets. Negative differences are color red and positive differences are color grey. The vegetation ground truth data has been plotted with a light green color underneath the differences.}
     \label{fig:ScaledDifference}
 \end{figure}
 
@@ -291,11 +293,13 @@ The image reduction in the paper was calculated in Agisoft Metashape with the Re
 
 The processing time and the alignment of the images are dependent on the image count.
 Less images result in less computation time, but also less points in the sparse cloud.
-The amount of images used in the processing does not seem to influence the density of the dense cloud, which was also concluded by \citet{EffectofUABimgcamover} 
+The amount of images used in the processing does not seem to influence the density of the dense cloud, which was also concluded by \citet{EffectofUABimgcamover}. 
 The only exception was building the dense cloud for the image data set with the lowest count. 
-%NOG IETS OVER SCHRIJVEN
+The lowest image count resulted in the dense cloud with the highest point count.
+Because of this, the process time for this dense cloud also took long compared to the other datasets.
+%% WHY
 However, the image count does influence the time needed to generate the dense cloud; more images means more time needed.
-There is no time difference in the generation of DEM, this is also not a computationally expensive step.
+There is no time difference in the generation of DEM, this is not a computationally expensive step and therefore no differences can be detected.
 
 There is a large different between the absolute values between the different DEM's, this can be seen visually in figure \ref{fig:DemPlot_unscaled} and also when comparing the boxplot values in figure \ref{fig:BoxPlot_unscaled}.
 The outliers in both boxplot figures are probably the vegetation that is present in the area as the boxplots only contain high outliers.
@@ -306,21 +310,21 @@ The violin plots indicate that the dataset with the highest image count is most 
 The largest errors differences (around -5/5) between the scaled DEM seem to be the same for all the image datasets.
 This is confirmed by looking at the difference between the scaled DEM's in \ref{fig:ScaledDifference}.
 The modelling software seems to have difficulties in modelling the complex structures of the vegetation with a lower image count, resulting in a larger difference when the image count is lower.
-This could result in more error around vegetation canopies where the algorithm has difficulties in accurately measuring the height. 
-\citet{AccessingImageOverlap} also concluded that for complex structures a higher image overlap provides better results.
-However, in this research this is only visibly assessed as no ground truth vegetation locations have not been extracted from the full image dataset.
 
+This is indeed visually confirmed in figure \ref{fig:ScaledDifference}. 
+Larger error are visible around the vegetation when the image overlap decreases.
+\citet{AccessingImageOverlap} also concluded that for complex structures a higher image overlap provides better results.
 An other option may changing the filtering setting provided by the Metashape dense cloud generation.
 In this research no depth filtering was used, by applying a more aggressive filtering technique the complex structures of the vegetation will be lost in the DEM generation \citep{AgisoftMetashape}.
-Further research is needed to see where this differences exactly occur and if a different depth filtering may result in different results.
 
 \section{Conclusion}
-The image overlap does influence the processing time in the photogrammetry process.
+The image overlap does influence the processing time in the photogrammetry process, more images means more processing time.
 Using different image overlap of the same area results in DEM's with different absolute values.
-The two image dataset with the least images show the largest difference in absolute value range compared to the original dataset with all images. 
+The two image dataset with the least images show the largest difference in absolute value range compared to the original dataset with all images.
 The image dataset with the highest image count, has a DEM that is most similar compared to the original dataset.
 When the scaled values are compared there seems to be a minimal difference between the DEM's.
-If more images are used in the dataset, the difference between the scaled DEM's compared to the full images set becomes smaller; the DEM differences are more centered around 0.
+If more images are used in the dataset, the difference between the scaled DEM's compared to the full images set becomes smaller.
+The differences all seem to occur around the vegetation.
 
 
 % KAO: Sloppy spacing ensures non-overfull lines. Can be removed if this is not an issue.
